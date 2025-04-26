@@ -27,7 +27,7 @@ brew install libshout
 Then, install nodeshout-koffi
 
 ```
-npm install https://github.com/username/repo-name nodeshout-koffi
+npm install https://github.com/godwwinpeace22/nodeshout-koffi
 ```
 
 Initalize nodeshout-koffi library, create a `Shout` instance and configure it.
