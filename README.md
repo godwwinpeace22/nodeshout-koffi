@@ -1,6 +1,6 @@
-# nodeshout
+# nodeshout-koffi
 
-Native libshout bindings for node.js.
+Native libshout bindings for node.js. Using koffi instead of node-ffi.
 
 > Libshout allows applications to easily communicate and broadcast to an Icecast streaming media server. It handles the socket connections, metadata communication, and data streaming for the calling application, and lets developers focus on feature sets instead of implementation details.
 
@@ -10,20 +10,11 @@ Original libshout docs: http://www.aelius.com/njh/libshout-doc/libshout.html (a 
 
 ## Node version compability
 
-Since this project heavily depends on [ffi-napi](https://github.com/node-ffi-napi/node-ffi-napi) project, there can be compability issues.
-
-My tests for the current version (2.0.0):
-
-| node | npm | result |
-| -- | -- | -- |
-| v18.13.0 | 8.19.3 | :white_check_mark: |
-| 16.16.0 | 8.11.0 | :white_check_mark: |
-| 14.20.1 | 6.14.17 | :white_check_mark: (`python` required to install) |
-| 12.22.12 | 6.14.16 | :white_check_mark: (`python` required to install) |
-| 11.15.0 | 6.7.0 | :x: Use version `0.1.3` |
-| 10.16.0 | 6.9.0 | :x: Use version `0.1.3` |
-| 9.11.1 | 5.6.0 | :x: Use version `0.1.3` |
-| 8.11.4 | 5.6.0 | :x: Use version `0.1.3` |
+Node < 12.22.0 not supported
+Node 12.x: Node 12.22.0 or newer
+Node 14.x: Node 14.17.0 or newer
+Node 15.x: Node 15.12.0 or newer
+Node 16.0.0 or later versions
 
 ## Usage
 
@@ -33,15 +24,16 @@ You have to install libshout library before using nodeshout. If you work on OS X
 brew install libshout
 ```
 
-Then, install nodeshout via npm.
+Then, install nodeshout-koffi
 
 ```
-npm i nodeshout
+npm install https://github.com/username/repo-name nodeshout-koffi
 ```
 
-Initalize nodeshout library, create a `Shout` instance and configure it.
+Initalize nodeshout-koffi library, create a `Shout` instance and configure it.
 
 ```js
+const nodeshout = require("nodeshout-koffi");
 // Initalize
 nodeshout.init();
 
@@ -49,15 +41,15 @@ nodeshout.init();
 const shout = nodeshout.create();
 
 // Configure it
-shout.setHost('localhost');
+shout.setHost("localhost");
 shout.setPort(8000);
-shout.setUser('source');
-shout.setPassword('password');
-shout.setMount('mount');
+shout.setUser("source");
+shout.setPassword("password");
+shout.setMount("mount");
 shout.setFormat(1); // 0=ogg, 1=mp3
-shout.setAudioInfo('bitrate', '192');
-shout.setAudioInfo('samplerate', '44100');
-shout.setAudioInfo('channels', '2');
+shout.setAudioInfo("bitrate", "192");
+shout.setAudioInfo("samplerate", "44100");
+shout.setAudioInfo("channels", "2");
 ```
 
 Open the connection.
@@ -87,13 +79,14 @@ Check the `/demos` folder.
 const metadata = nodeshout.createMetadata();
 
 // Set currently playing song.
-metadata.add('song', 'Led Zeppelin - I can\'t quit you baby');
+metadata.add("song", "Led Zeppelin - I can't quit you baby");
 
 // Apply metadata to shout
 shout.setMetadata(metadata);
 ```
 
 ## Developing
+
 Below is a short guild to the development in this repository
 
 - Clone repository
@@ -106,6 +99,7 @@ Below is a short guild to the development in this repository
 ### Debuging
 
 #### Libshout install issue
+
 If you get the below error its likely that the `libshout` dependency is installed incorrectly
 `Error: ENOENT: no such file or directory, open 'libshout.so'`
 
